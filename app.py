@@ -48,20 +48,13 @@ def generate(prompt, negative_prompt, steps, guidance, width, height, seed):
     
     return image, history
 
-with gr.Blocks(
-        title="AI Image Generator",
-        css="""
-            body { background-color: #0f172a; }
-            .gradio-container { max-width: 1200px; margin: auto; }
-            h1, h2 { text-align: center; }
-        """
-    ) as demo:
+with gr.Blocks(title="AI Image Generator") as demo:
     
-    gr.Markdown("AI Image Generator")
+    gr.Markdown("# AI Image Generator")
     
     with gr.Row(equal_height=True):
         with gr.Column(scale=1):
-            gr.Markdown("Prompt Settings")
+            gr.Markdown("### Prompt Settings")
             prompt = gr.Textbox(
                 label="Prompt",
                 placeholder="Enter prompt here...",
@@ -80,20 +73,30 @@ with gr.Blocks(
                     precision=0,
                     label="Seed (-1 = random)"
                 )
-            
-            steps = gr.Slider(20, 40, value=28, step=1, label="Steps")
-            guidance = gr.Slider(5, 12, value=8.5, step=0.5, label="Guidance Scale")
 
-            width = gr.Dropdown([512, 768], value=512, label="Width")
-            height = gr.Dropdown([512, 768], value=512, label="Height")
+                steps = gr.Slider(
+                    20, 40, value=28, step=1, label="Steps"
+                )
+
+                guidance = gr.Slider(
+                    5, 12, value=8.5, step=0.5, label="Guidance Scale (CFG)"
+                )
+
+                width = gr.Dropdown(
+                    [512, 768], value=512, label="Width"
+                )
+
+                height = gr.Dropdown(
+                    [512, 768], value=512, label="Height"
+                )
 
             btn = gr.Button("Generate", variant="primary")
             
         with gr.Column(scale=1):
-            gr.Markdown("Result")
+            gr.Markdown("### Result")
             output = gr.Image(label="Generated Image", height=512, show_label=False)
     
-    gr.Markdown("History")
+    gr.Markdown("## History")
     
     gallery = gr.Gallery(
         label="Generated Images History",
